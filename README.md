@@ -18,3 +18,5 @@ K8S_MGMT_PORTGROUP='DVPG-Management-network'
 K8S_WKD0_PORTGROUP='Workload0-VDS-PG'
 K8S_WKD1_PORTGROUP='Workload1-VDS-PG'
 ```
+
+Modify `VcenterNamespaceManagementClustersInfo.json` with the relevent static values. Do not modify the variables within ${}. 
