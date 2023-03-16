@@ -44,7 +44,7 @@ then
     echo "Error: Could not connect to the NSX ALB endpoint. Please validate!!"
     exit 1
 fi
-export AVI_CACERT=$(jq -sR . /tmp/avi-ca.cert)
+export AVI_CACERT=$(jq -sR . /tmp/temp_avi-ca.cert)
 
 ################################################
 # Login to VCenter and get Session ID
