@@ -76,6 +76,12 @@ then
         exit 1
 fi
 
+# If Supervisor enabled on the cluster, error out
+#then
+#        echo "Error: Supervisor already enabled on - ${K8S_SUP_CLUSTER}. Exiting!!"
+#        exit 1
+#fi
+
 ################################################
 # Get contentlibrary details from vCenter
 ###############################################
@@ -147,5 +153,7 @@ envsubst < VcenterNamespaceManagementClustersInfo.json > temp_final.json
 
 echo "Enabling WCP on cluster ${TKGClusterID} ..."
 curl -ks -X POST -H "${HEADER_SESSIONID}" -H "${HEADER_CONTENTTYPE}" -d "@temp_final.json" https://${VCENTER_HOSTNAME}/api/vcenter/namespace-management/clusters/${TKGClusterID}?action=enable
+
+#while configuring, keep checking for status of Supervisor until ready
 
 rm -f /tmp/temp_*.*
