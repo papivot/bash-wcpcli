@@ -4,6 +4,7 @@
 # Enter temp variables here
 ###################################################
 
+VCENTER_VERSION=8
 VCENTER_HOSTNAME=192.168.100.50
 VCENTER_USERNAME=administrator@vsphere.local
 VCENTER_PASSWORD='VMware1!'
@@ -85,18 +86,24 @@ fi
 ################################################
 # Get contentlibrary details from vCenter
 ###############################################
-echo "Searching for Content Library ${K8S_CONTENT_LIBRARY} ..."
-response=$(curl -ks --write-out "%{http_code}" -X POST -H "${HEADER_SESSIONID}" -H "${HEADER_CONTENTTYPE}" -d "$(content_library_json)" https://${VCENTER_HOSTNAME}/api/content/library?action=find --output /tmp/temp_contentlib.json)
-if [[ "${response}" -ne 200 ]] ; then
-  echo "Error: Could not fetch content librarys. Please validate!!"
-  exit 1
-fi
+if [[ ${VCENTER_VERSION} -eq 7 ]] ; then
+	
+	echo "Searching for Content Library ${K8S_CONTENT_LIBRARY} ..."
+	response=$(curl -ks --write-out "%{http_code}" -X POST -H "${HEADER_SESSIONID}" -H "${HEADER_CONTENTTYPE}" -d "$(content_library_json)" https://${VCENTER_HOSTNAME}/api/content/library?action=find --output /tmp/temp_contentlib.json)
+	if [[ "${response}" -ne 200 ]] ; then
+  		echo "Error: Could not fetch content librarys. Please validate!!"
+  		exit 1
+	fi
 
-export TKGContentLibrary=$(jq -r '.[]' /tmp/temp_contentlib.json)
-if [ -z "${TKGContentLibrary}" ]
-then
-        echo "Error: Could not fetch content library - ${K8S_CONTENT_LIBRARY} . Please validate!!"
-        exit 1
+	export TKGContentLibrary=$(jq -r '.[]' /tmp/temp_contentlib.json)
+	if [ -z "${TKGContentLibrary}" ]
+	then
+        	echo "Error: Could not fetch content library - ${K8S_CONTENT_LIBRARY} . Please validate!!"
+        	exit 1
+	fi
+	cp VcenterNamespaceManagementClustersInfo-70.json VcenterNamespaceManagementClustersInfo.json 
+else
+	cp VcenterNamespaceManagementClustersInfo-80.json VcenterNamespaceManagementClustersInfo.json 
 fi
 
 ################################################
@@ -157,3 +164,5 @@ curl -ks -X POST -H "${HEADER_SESSIONID}" -H "${HEADER_CONTENTTYPE}" -d "@temp_f
 #while configuring, keep checking for status of Supervisor until ready
 
 rm -f /tmp/temp_*.*
+#rm -f temp_final.json
+rm -f VcenterNamespaceManagementClustersInfo.json
