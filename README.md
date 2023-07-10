@@ -20,5 +20,7 @@ K8S_WKD0_PORTGROUP='Workload0-VDS-PG'
 K8S_WKD1_PORTGROUP='Workload1-VDS-PG'
 ```
 
-2. Modify `VcenterNamespaceManagementClustersInfo.json` with the relevent static values. Do not modify the variables within ${}. 
+2. Copy `VcenterNamespaceManagementClustersInfo-70.json` or `VcenterNamespaceManagementClustersInfo-80.json` to `VcenterNamespaceManagementClustersInfo.json` depending on the version of vCenter. 
+3. Modify `VcenterNamespaceManagementClustersInfo.json` with the relevent static values. Do not modify the variables within ${}. 
+4. Execute `enable-wcp.sh`
 ---
