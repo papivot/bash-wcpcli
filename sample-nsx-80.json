@@ -1,0 +1,53 @@
+{
+    "ephemeral_storage_policy": "${TKGStoragePolicy}",
+    "master_storage_policy": "${TKGStoragePolicy}",
+    "image_storage": {
+        "storage_policy": "${TKGStoragePolicy}"
+    },
+    "Master_DNS_names": [ "wcp.env1.lab.test" ],
+    "cluster_proxy_config": {
+        "proxy_settings_source": "VC_INHERITED"
+    },
+    "default_image_repository": "",
+    "login_banner": "You are connected to ubuntu-nv-05 Supervisor",
+    "master_DNS": [ "192.168.100.1" ],
+    "worker_DNS": [ "192.168.100.1" ],
+    "master_DNS_search_domains": [ "env1.lab.test" ],
+    "master_NTP_servers": [ "ntp.vmware.com" ],
+    "workload_ntp_servers": [ "ntp.vmware.com" ],
+    "network_provider": "NSXT_CONTAINER_PLUGIN",
+    "size_hint": "SMALL",
+    "service_cidr": {
+        "address": "10.96.0.0",
+        "prefix": 23
+    },
+    "master_management_network": {
+        "address_range": {
+            "address_count": 5,
+            "gateway": "192.168.100.1",
+            "starting_address": "192.168.100.60",
+            "subnet_mask": "255.255.254.0"
+        },
+        "mode": "STATICRANGE",
+        "network": "${TKGMgmtNetwork}"
+    },
+    "ncp_cluster_network_spec": {
+        "cluster_distributed_switch": "${NSX_DVS}",
+        "egress_cidrs": [ {
+            "address": "10.220.8.22",
+            "prefix": 28
+        } ],
+        "ingress_cidrs": [ {
+            "address": "10.220.8.0",
+            "prefix": 28
+        } ],
+        "namespace_subnet_prefix": 28,
+        "nsx_edge_cluster": "${NSX_EDGE_CLUSTER_ID}",
+        "nsx_tier0_gateway": "${NSX_T0_GATEWAY}",
+        "pod_cidrs": [ {
+            "address": "10.244.0.0",
+            "prefix": 20
+        } ],
+        "routed_mode": false
+    }
+}
