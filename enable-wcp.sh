@@ -10,7 +10,7 @@ VCENTER_USERNAME=administrator@vsphere.local
 VCENTER_PASSWORD='VMware1!'
 DEPLOYMENT_TYPE='VDS'
 export DNS_SERVER='192.168.100.1'
-export NTP_SERVER='time.vmware.com'
+export NTP_SERVER='time1.oc.vmware.com'
 export DNS_SEARCHDOMAIN='env1.lab.test'
 
 export MGMT_STARTING_IP='192.168.100.60'
@@ -109,7 +109,7 @@ fi
 #fi
 
 ################################################
-# Get contentlibrary details from vCenter
+# Get content library details from vCenter
 ###############################################
 if [[ ${VCENTER_VERSION} -eq 7 ]] ; then
 	
@@ -130,7 +130,7 @@ if [[ ${VCENTER_VERSION} -eq 7 ]] ; then
 fi
 
 ################################################
-# Get stroage policy details from vCenter
+# Get storage policy details from vCenter
 ###############################################
 echo "Searching for Storage Policy ${K8S_STORAGE_POLICY} ..."
 response=$(curl -ks --write-out "%{http_code}" -X GET  -H "${HEADER_SESSIONID}" https://${VCENTER_HOSTNAME}/api/vcenter/storage/policies --output /tmp/temp_storagepolicies.json)
@@ -167,7 +167,7 @@ then
 fi
 
 ################################################
-# Get compatiable VDS switch from vCenter
+# Get a compatible VDS switch from vCenter
 ###############################################
 if [ ${DEPLOYMENT_TYPE} == "NSX" ]
 then
@@ -186,7 +186,7 @@ then
 fi
 
 ################################################
-# Get WORKLOAD Netwrok exist for VDS
+# Get WORKLOAD Network exists for VDS
 ###############################################
 if [ ${DEPLOYMENT_TYPE} == "VDS" ]
 then
@@ -210,7 +210,7 @@ envsubst < cluster.json > temp_final.json
 echo "Enabling WCP on cluster ${TKGClusterID} ..."
 curl -ks -X POST -H "${HEADER_SESSIONID}" -H "${HEADER_CONTENTTYPE}" -d "@temp_final.json" https://${VCENTER_HOSTNAME}/api/vcenter/namespace-management/clusters/${TKGClusterID}?action=enable
 
-#while configuring, keep checking for status of Supervisor until ready
+#while configuring, keep checking for the status of the Supervisor until ready
 
 rm -f /tmp/temp_*.*
 rm -f temp_final.json
