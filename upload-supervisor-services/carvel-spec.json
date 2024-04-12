@@ -1,0 +1,7 @@
+{
+    "carvel_spec": {
+        "version_spec": {
+            "content": "${FILE_CONTENT}"
+        }
+    }
+}
